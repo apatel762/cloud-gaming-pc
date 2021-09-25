@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.60.0"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 2.1.0"
+    }
   }
 
   required_version = ">= 1.0.7"
@@ -38,6 +42,16 @@ resource "aws_security_group" "default" {
   name = "cloud-gaming-sg"
 }
 
+# Get current IPv4
+# https://tom-henderson.github.io/2021/04/20/terraform-current-ip.html
+
+data "external" "my_ip_from_ipify" {
+  program = [
+    "bash", "-c",
+    "curl -s 'https://api.ipify.org?format=json'"
+  ]
+}
+
 resource "aws_security_group_rule" "rdp_ingress" {
   security_group_id = aws_security_group.default.id
 
@@ -46,7 +60,7 @@ resource "aws_security_group_rule" "rdp_ingress" {
   from_port   = 3389
   to_port     = 3389
   protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"] #todo: make this my ip only
+  cidr_blocks = ["${data.external.my_ip_from_ipify.result.ip}/32"]
 }
 
 resource "aws_security_group_rule" "vnc_ingress" {
@@ -57,7 +71,7 @@ resource "aws_security_group_rule" "vnc_ingress" {
   from_port   = 5900
   to_port     = 5900
   protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"] #todo: make this my ip only
+  cidr_blocks = ["${data.external.my_ip_from_ipify.result.ip}/32"]
 }
 
 # Allow all outbound connections
