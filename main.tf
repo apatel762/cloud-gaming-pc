@@ -40,11 +40,18 @@ data "aws_ami" "windows_ami" {
 }
 
 # ---------------------------------------------------------------------
-# Create an auto-generated password for the server
+# Create an auto-generated password and put it in the SSM parameter
+# store
 
 resource "random_password" "password" {
   length  = 32
   special = true
+}
+
+resource "aws_ssm_parameter" "password" {
+  name  = "cloud-gaming-administrator-password"
+  type  = "SecureString"
+  value = random_password.password.result
 }
 
 # ---------------------------------------------------------------------
@@ -98,6 +105,50 @@ resource "aws_security_group_rule" "default" {
 }
 
 # ---------------------------------------------------------------------
+# IAM role & policy for the instance
+
+resource "aws_iam_policy" "policy_for_getting_password_from_ssm" {
+  name = "password-get-parameter-policy"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = "sts:GetParameter"
+        Effect   = "Allow"
+        Resource = aws_ssm_parameter.password.arn
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role" "role_for_windows_instance" {
+  name = "role_for_windows_instance"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attaching_policy_for_getting_password_from_ssm" {
+  role       = aws_iam_role.role_for_windows_instance.name
+  policy_arn = aws_iam_policy.policy_for_getting_password_from_ssm.arn
+}
+
+resource "aws_iam_instance_profile" "windows_instance_profile" {
+  name = "cloud-gaming-instance-profile"
+  role = aws_iam_role.role_for_windows_instance.name
+}
+
+# ---------------------------------------------------------------------
 # A persistent spot request for the Windows instance
 #
 # Using a spot request for this because it's cheaper than using an
@@ -106,9 +157,16 @@ resource "aws_security_group_rule" "default" {
 #
 
 resource "aws_spot_instance_request" "windows_instance" {
-  instance_type   = var.instance_type
-  ami             = data.aws_ami.windows_ami.image_id
-  security_groups = [aws_security_group.default.name]
+  instance_type        = var.instance_type
+  ami                  = data.aws_ami.windows_ami.image_id
+  security_groups      = [aws_security_group.default.name]
+  iam_instance_profile = aws_iam_instance_profile.windows_instance_profile.id
+
+  # the script which gets the password from SSM and sets up auto login
+  # to use the generated password
+  user_data = templatefile("${path.module}/templates/userdata.tpl", {
+    password_ssm_parameter = aws_ssm_parameter.password.name
+  })
 
   # ensure that our spot request is one-time so it doesn't spin up
   # another instance if we lose it, and then the price goes down while
