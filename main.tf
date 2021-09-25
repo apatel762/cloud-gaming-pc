@@ -89,8 +89,8 @@ resource "aws_security_group_rule" "default" {
 # A persistent spot request for the Windows instance
 #
 # Using a spot request for this because it's cheaper than using an
-# on-demand instance. The costs add up quite quickly over time
-# otherwise.
+# on-demand instance. The costs will otherwise add up quite quickly
+# over time.
 #
 
 resource "aws_spot_instance_request" "windows_instance" {
