@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/external"
       version = "~> 2.1.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.1.0"
+    }
   }
 
   required_version = ">= 1.0.7"
@@ -33,6 +37,14 @@ data "aws_ami" "windows_ami" {
     name   = "name"
     values = ["Windows_Server-2019-English-Full-Base-*"]
   }
+}
+
+# ---------------------------------------------------------------------
+# Create an auto-generated password for the server
+
+resource "random_password" "password" {
+  length  = 32
+  special = true
 }
 
 # ---------------------------------------------------------------------
