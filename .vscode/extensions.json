@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "hashicorp.terraform",
-        "christian-kohler.path-intellisense"
+        "christian-kohler.path-intellisense",
+        "imperez.smarty"
     ]
 }
