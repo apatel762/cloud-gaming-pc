@@ -6,6 +6,12 @@ variable "aws_profile" {
   default     = "default"
 }
 
+variable "aws_region" {
+  description = "The region to provision the infra in"
+  type        = string
+  default     = "eu-west-2"
+}
+
 variable "resource_tags" {
   description = "Tags to set for all resources"
   type        = map(string)
