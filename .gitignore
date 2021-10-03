@@ -1,3 +1,11 @@
+# Custom stuff
+
+workstation.pem
+terraform.tfvars
+
+
+# ---------------------------------------------------------------------
+
 # Local .terraform directories
 **/.terraform/*
 
