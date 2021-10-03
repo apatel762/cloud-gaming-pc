@@ -9,6 +9,7 @@ resource "aws_spot_instance_request" "workstation_instance" {
   instance_type          = var.instance_type
   ami                    = data.aws_ami.ubuntu_ami.image_id
   vpc_security_group_ids = [aws_security_group.workstation_security_group.id]
+  key_name               = aws_key_pair.workstation_key_pair.key_name
 
   # ensure that our spot request is one-time so it doesn't spin up
   # another instance if we lose it, and then the price goes down while
