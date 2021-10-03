@@ -6,10 +6,6 @@ resource "tls_private_key" "ssh_key" {
 resource "aws_key_pair" "workstation_key_pair" {
   key_name   = "workstation-key"
   public_key = tls_private_key.ssh_key.public_key_openssh
-
-  tags = {
-    "Name" = aws_key_pair.workstation_key_pair.key_name
-  }
 }
 
 resource "local_file" "private_key" {
