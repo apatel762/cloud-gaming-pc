@@ -1,11 +1,26 @@
-# Cloud Gaming PC
+# Cloud Workstation
 
-A gaming PC hosted in the cloud, deployed with Terraform
+In this repository you'll find some Terraform config that can be used to deploy a decently powerful Linux machine into the AWS cloud, which you can then use as a workstation.
 
+Note: at the moment, the instance uses the ARM architecture for its processor (and it uses Ubuntu Server for ARM64).
+
+## Usage
+
+Ensure that you have a `default` profile in your `~/.aws` config, and some credentials as well. This is needed so that Terraform can call the AWS APIs.
+
+Use `terraform apply` to deploy everything.
+
+Once the server is spun up, Terraform will output the IP address of the server. Use this, and the `workstation.pem`, which Terraform also creates, to connect to the server.
+
+```
+ssh ubuntu@<ipv4> -i workstation.pem
+```
+
+When you are done with the server, use `terraform destroy` to ensure that you don't rack up a huge bill.
 
 ## Troubleshooting
 
-### `VcpuLimitExceeded`
+### Cannot launch instance due to `VcpuLimitExceeded` error
 
 > Error: Error launching source instance: VcpuLimitExceeded: You have requested more vCPU capacity than your current vCPU limit of 0 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit.
 
