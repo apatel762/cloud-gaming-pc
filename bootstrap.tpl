@@ -14,7 +14,7 @@ echo "${user} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/00-cloud-workstation
 # set up the authorised SSH key to include the one Terraform generates
 mkdir /home/${user}/.ssh
 touch /home/${user}/.ssh/authorized_keys
-echo "${authorised_ssh} ${user}" >> /home/${user}/.ssh/authorized_keys
+echo "${authorised_key} ${user}" >> /home/${user}/.ssh/authorized_keys
 
 # restrict file and folder ownership
 chown -R ${user}:${user} /home/${user}/.ssh

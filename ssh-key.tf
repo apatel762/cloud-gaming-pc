@@ -24,6 +24,6 @@ resource "aws_key_pair" "workstation_key_pair" {
 
 resource "local_file" "private_key" {
   content         = tls_private_key.ssh_key.private_key_pem
-  filename        = "workstation.pem"
+  filename        = var.ssh_key_filename
   file_permission = "0400"
 }
