@@ -26,6 +26,12 @@ variable "root_volume_size" {
   default     = 120
 }
 
+variable "ssh_key_filename" {
+  description = "The name of the private key file (must be '.pem') that will be used for SSH"
+  type        = string
+  default     = "workstation.pem"
+}
+
 # EC2 user data
 
 variable "ec2_user" {
