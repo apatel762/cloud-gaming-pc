@@ -18,6 +18,16 @@ ssh ubuntu@<ipv4> -i workstation.pem
 
 When you are done with the server, use `terraform destroy` to ensure that you don't rack up a huge bill.
 
+## Configuration
+
+Some variables that you might want to change (for more detail, see `variables.tf`):
+
+- `instance_type`
+- `ec2_user`
+- `give_sudo_to_ec2_user`
+
+Create a `terraform.tfvars` file to override these, or any of the other variables, if you want to.
+
 ## Troubleshooting
 
 ### Cannot launch instance due to `VcpuLimitExceeded` error
