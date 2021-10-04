@@ -12,8 +12,7 @@ resource "aws_spot_instance_request" "workstation_instance" {
   key_name               = aws_key_pair.workstation_key_pair.key_name
 
   # ensure that our spot request is one-time so it doesn't spin up
-  # another instance if we lose it, and then the price goes down while
-  # we aren't using it
+  # another instance if we lose it
   spot_type = "one-time"
 
   # ensure that terraform waits for the spot request to be fulfilled
