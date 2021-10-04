@@ -10,6 +10,11 @@ resource "aws_spot_instance_request" "workstation_instance" {
   ami                    = data.aws_ami.ubuntu_ami.image_id
   vpc_security_group_ids = [aws_security_group.workstation_security_group.id]
   key_name               = aws_key_pair.workstation_key_pair.key_name
+  user_data = templatefile("${path.module}/bootstrap.tpl", {
+    user           = var.ec2_user,
+    give_sudo      = var.give_sudo_to_ec2_user
+    authorised_key = tls_private_key.ssh_key.public_key_openssh
+  })
 
   # ensure that our spot request is one-time so it doesn't spin up
   # another instance if we lose it
