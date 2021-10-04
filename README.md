@@ -62,6 +62,6 @@ aws ec2 describe-images \
         "Images[] | reverse(sort_by(@, &CreationDate))[]"
 ```
 
-The filters come from [the AWS CLI reference](hthttps://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/describe-images.html).
+The filters come from [the AWS CLI reference](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/describe-images.html).
 
 If you *do* want to use Ubuntu, but not the AMI that this repo uses by default, you can find another one [here](https://cloud-images.ubuntu.com/locator/ec2/).
