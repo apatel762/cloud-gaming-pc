@@ -26,7 +26,7 @@ Some variables that you might want to change (for more detail, see `variables.tf
 - `ec2_user`
 - `give_sudo_to_ec2_user`
 
-Create a `terraform.tfvars` file to override these, or any of the other variables, if you want to.
+Create a `terraform.tfvars` file to override these, or any of the other variables, if you want to. See `terraform.tfvars.example` for an example of what this would look like.
 
 ## Troubleshooting
 

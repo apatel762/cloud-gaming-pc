@@ -1,0 +1,2 @@
+ec2_user="arjun"
+give_sudo_to_ec2_user=true
