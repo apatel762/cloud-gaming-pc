@@ -34,3 +34,24 @@ If you get this error, you need to go into the AWS Console and manually request 
 This will raise a ticket with AWS and they'll get back to you with a 'yes' or 'no' for your service limit increase. Wait a couple of days.
 
 Stack Overflow (July 12, 2021). "[You have requested more vCPU capacity than your current vCPU limit of 0](https://stackoverflow.com/questions/68347900/you-have-requested-more-vcpu-capacity-than-your-current-vcpu-limit-of-0)". *[Archived](https://web.archive.org/web/20210925173200/https://stackoverflow.com/questions/68347900/you-have-requested-more-vcpu-capacity-than-your-current-vcpu-limit-of-0)*. Retrieved September 25, 2021.
+
+### I don't want to use Ubuntu
+
+You can find other AMIs by searching via the AWS CLI (or on the internet):
+
+```bash
+aws ec2 describe-images \
+    --owners \
+        099720109477 \
+    --filters \
+        Name="name",Values="ubuntu*-21.04-arm64-server-*" \
+        Name="virtualization-type",Values="hvm" \
+        Name="root-device-type",Values="ebs" \
+        Name="ena-support",Values="true" \
+    --query \
+        "Images[] | reverse(sort_by(@, &CreationDate))[]"
+```
+
+The filters come from [the AWS CLI reference](hthttps://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/describe-images.html).
+
+If you *do* want to use Ubuntu, but not the AMI that this repo uses by default, you can find another one [here](https://cloud-images.ubuntu.com/locator/ec2/).
