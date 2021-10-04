@@ -25,3 +25,17 @@ variable "root_volume_size" {
   type        = number
   default     = 120
 }
+
+# EC2 user data
+
+variable "ec2_user" {
+  description = "The username of the user that you will use you log in to the EC2 instance"
+  type        = string
+  default     = "amigo"
+}
+
+variable "give_sudo_to_ec2_user" {
+  description = "Controls whether or not the custom EC2 user will be added to the sudoers list"
+  type        = bool
+  default     = false
+}
