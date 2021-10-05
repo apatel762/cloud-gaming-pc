@@ -12,6 +12,17 @@ data "external" "my_ip_from_ipify" {
   ]
 }
 
+resource "aws_security_group_rule" "tomcat_ingress" {
+  security_group_id = aws_security_group.workstation_security_group.id
+
+  type        = "ingress"
+  description = "Allow access to Tomcat server from my IP"
+  from_port   = 8080
+  to_port     = 8080
+  protocol    = "tcp"
+  cidr_blocks = ["${data.external.my_ip_from_ipify.result.ip}/32"]
+}
+
 resource "aws_security_group_rule" "rdp_ingress" {
   security_group_id = aws_security_group.workstation_security_group.id
 
