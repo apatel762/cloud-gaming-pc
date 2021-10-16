@@ -19,3 +19,8 @@ echo "${authorised_key}" >> /home/${user}/.ssh/authorized_keys
 # restrict file and folder ownership
 chown -R ${user}:${user} /home/${user}/.ssh
 chmod -R go-rx /home/${user}/.ssh
+
+# ---------------------------------------------------------------------
+# stuff that's needed for rootless docker
+
+apt-get install -y uidmap
