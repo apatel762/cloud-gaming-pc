@@ -51,4 +51,8 @@ echo -n "http://" \
 
 ## Guacamole
 
-Need to use Postgres for the backing DB as MySQL doesn't support ARM64.
+Rough notes:
+
+- [postgres image](https://hub.docker.com/_/postgres) (supports ARM)
+- [Terraform copy files](https://stackoverflow.com/questions/62101009/terraform-copy-upload-files-to-aws-ec2-instance#62101890)
+- Need to figure out how to run Guacamole on ARM (official container is AMD64 only)
