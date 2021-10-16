@@ -8,3 +8,7 @@ output "ssh_command" {
     var.ssh_key_filename
   )
 }
+
+output "workstation_public_hostname" {
+  value = aws_spot_instance_request.workstation_instance.public_dns
+}
