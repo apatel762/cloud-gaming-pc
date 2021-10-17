@@ -1,0 +1,7 @@
+---
+- name: Set up the cloud workstation
+  hosts: workstation
+  roles:
+    - role: base-pkgs
+    - role: desktop-env
+    - role: rdp
