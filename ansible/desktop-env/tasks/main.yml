@@ -1,0 +1,27 @@
+---
+- name: Ensure that the XFCE base packages are installed
+  become: true
+  apt:
+    state: present
+    name:
+      - xserver-xorg
+      - xfonts-base
+      - xubuntu-desktop
+      - lightdm
+
+# switching the default display manager
+# https://techpiezo.com/linux/switch-display-manager-in-ubuntu-20-04/
+- name: Check current status of the default display manager file
+  stat:
+    path: /etc/X11/default-display-manager
+  register: x11_display_manager
+
+# - name: __debug__ x11_display_manager
+#   debug:
+#     var: x11_display_manager
+
+- name: Ensure that lightdm is the default display manager
+  script: change-default-display-manager.sh lightdm
+  when:
+    x11_display_manager.stat.checksum != 'a9df265acbc33665a1fea46475ca5860b4310531'
+  notify: ["Restart the display-manager service"]

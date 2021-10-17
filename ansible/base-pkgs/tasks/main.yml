@@ -1,0 +1,21 @@
+---
+- name: Ensure that common packages are installed
+  become: yes
+  apt:
+      state: present
+      name:
+        # all of the useful terminal commands
+        # should be pre-installed but it's here just to make sure
+        - coreutils
+
+        # so that we can use `add-apt-repository`
+        - software-properties-common
+        - dirmngr
+        - apt-transport-https
+        - lsb-release
+        - ca-certificates
+
+        # other stuff
+        - curl
+        - fzf
+        - firefox
