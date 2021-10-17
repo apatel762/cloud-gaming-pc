@@ -19,6 +19,7 @@ chown -R ${user}:${user} /home/${user}/.ssh
 chmod -R go-rx /home/${user}/.ssh
 
 # ---------------------------------------------------------------------
-# stuff that's needed for rootless docker
+# stuff that's needed for rootless docker (still experimenting with
+# this, not necessarily needed tbh)
 
 apt-get install -y uidmap
