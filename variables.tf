@@ -39,9 +39,3 @@ variable "ec2_user" {
   type        = string
   default     = "amigo"
 }
-
-variable "give_sudo_to_ec2_user" {
-  description = "Controls whether or not the custom EC2 user will be added to the sudoers list"
-  type        = bool
-  default     = false
-}

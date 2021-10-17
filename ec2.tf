@@ -12,7 +12,6 @@ resource "aws_spot_instance_request" "workstation_instance" {
   key_name               = aws_key_pair.workstation_key_pair.key_name
   user_data = templatefile("${path.module}/bootstrap.tpl", {
     user           = var.ec2_user,
-    give_sudo      = var.give_sudo_to_ec2_user
     authorised_key = tls_private_key.ssh_key.public_key_openssh
   })
 
