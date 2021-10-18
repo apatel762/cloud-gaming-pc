@@ -1,6 +1,0 @@
----
-- name: Restart the display-manager service
-  become: true
-  service:
-    name: display-manager
-    state: restarted

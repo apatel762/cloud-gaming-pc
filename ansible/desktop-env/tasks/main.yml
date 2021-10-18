@@ -14,14 +14,19 @@
 - name: Check current status of the default display manager file
   stat:
     path: /etc/X11/default-display-manager
+    checksum_algorithm: sha256
   register: x11_display_manager
 
-# - name: __debug__ x11_display_manager
-#   debug:
-#     var: x11_display_manager
-
 - name: Ensure that lightdm is the default display manager
+  become: true
   script: change-default-display-manager.sh lightdm
   when:
-    x11_display_manager.stat.checksum != 'a9df265acbc33665a1fea46475ca5860b4310531'
-  notify: ["Restart the display-manager service"]
+    x11_display_manager.stat.checksum != 'ce87bfbb15be1bba4d16d93c1a3a8b0184737204f40afc92a078bc6aed4b7094'
+
+- name: Restart the display-manager service
+  become: true
+  service:
+    name: display-manager
+    state: restarted
+  when:
+    x11_display_manager.stat.checksum != 'ce87bfbb15be1bba4d16d93c1a3a8b0184737204f40afc92a078bc6aed4b7094'

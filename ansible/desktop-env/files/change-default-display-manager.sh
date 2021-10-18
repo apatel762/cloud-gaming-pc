@@ -16,7 +16,7 @@ set_dm() {
     if [ ! -e "${DISPLAY_MANAGER_BIN}" ]
     then
         echo "${DISPLAY_MANAGER} seems not to be a valid display manager or is not installed."
-    exit 1
+        exit 1
     fi
 
     echo "${DISPLAY_MANAGER_BIN}" > "${DEFAULT_DISPLAY_MANAGER_FILE}"
