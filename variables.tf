@@ -39,3 +39,23 @@ variable "ec2_user" {
   type        = string
   default     = "amigo"
 }
+
+# Resource naming
+
+variable "naming_prefix" {
+  description = "3 character prefix for all resources created"
+  type        = string
+  default     = "arj"
+}
+
+variable "naming_project" {
+  description = "4-10 character project name included in the name of all resources"
+  type        = string
+  default     = "cloudws"
+}
+
+variable "naming_env" {
+  description = "1 letter that represents the environment"
+  type        = string
+  default     = "p"
+}

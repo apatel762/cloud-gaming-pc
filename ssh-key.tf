@@ -18,7 +18,7 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "aws_key_pair" "workstation_key_pair" {
-  key_name   = "workstation-key"
+  key_name   = "${var.naming_prefix}-${var.naming_project}-${var.naming_env}-key"
   public_key = tls_private_key.ssh_key.public_key_openssh
 }
 
