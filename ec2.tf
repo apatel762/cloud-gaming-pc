@@ -14,6 +14,9 @@ resource "aws_spot_instance_request" "workstation_instance" {
     user           = var.ec2_user,
     authorised_key = tls_private_key.ssh_key.public_key_openssh
   })
+  tags = {
+    Name = "${var.naming_prefix}-${var.naming_project}-${var.naming_env}-ec2"
+  }
 
   # ensure that our spot request is one-time so it doesn't spin up
   # another instance if we lose it

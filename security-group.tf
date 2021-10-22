@@ -1,5 +1,5 @@
 resource "aws_security_group" "workstation_security_group" {
-  name = "workstation-sg"
+  name = "${var.naming_prefix}-${var.naming_project}-${var.naming_env}-sgr"
 }
 
 # Get current IPv4
